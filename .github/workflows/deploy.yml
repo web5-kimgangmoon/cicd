@@ -1,2 +1,26 @@
 # XML을 대체하는 문서 / YML, YXML
 # 주석을 다는 일이 가능하다
+# JSON 파일을 배치한다. JSON과 문법이 다르다.
+name: Deploy React to EC2
+
+on:
+  #~했을 때
+  push:
+    # push 했을 때
+    branches:
+      # 브랜치에
+      - main
+      # 메인 브렌치에
+
+jobs:
+  # 작업들
+  build:
+  # 작업명
+  runs-on: ubuntu-latest
+  # 작업 환경
+  steps:
+    # 작업들을 순서에 맞춰서 작성
+    - name: "testing"
+      # 작업명은 testing이고
+      run: echo "now test"
+      # 작업 내용은 echo "now test"
