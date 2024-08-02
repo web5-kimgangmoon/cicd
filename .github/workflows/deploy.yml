@@ -24,46 +24,46 @@ jobs:
         # 작업명은 testing이고
         run: echo "now test"
         # 작업 내용은 echo "now test"###
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+deploy:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-nod@v4
-        with:
-          node-version: "20"
+    - name: Set up Node.js
+      uses: actions/setup-nod@v4
+      with:
+        node-version: "20"
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.EC2_KEY }}
+    - name: Add SSH key
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.EC2_KEY }}
 
-      - name: Ensure SSH directory exists
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+    - name: Ensure SSH directory exists
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
 
-      - name: Install dependencies of project
-        working-directory: ./
-        run: npm i
+    - name: Install dependencies of project
+      working-directory: ./
+      run: npm i
 
-      - name: Build project
-        working-directory: ./
-        run: npm run build
+    - name: Build project
+      working-directory: ./
+      run: npm run build
 
-      - name: Add SSH Known hosts
-        run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+    - name: Add SSH Known hosts
+      run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy files to EC2
-        run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /var/www/html"
-          rsync -avz -e "ssh" ./build ${{ secrets.EC2_USER }}@${{ secrets.EC2.HOST }}:/var/www/html
-        # rsync == filezilla
-        # 첫번째 줄의 명령어는 현재 폴더의 build 폴더를 EC2 유저로 인스턴스(HOST)에 접속해서 /var/www/html 폴더에 복사해달라
-        # -e "ssh" == 접속 방법에 대한 설정
-        # -avz == 설정, 옵션
-        # -a : 전부
-        # -v : 모두 출력해달라
-        # -z : 권한, 소유자, 그룹등 유지
+    - name: Copy files to EC2
+      run: |
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /var/www/html"
+        rsync -avz -e "ssh" ./build ${{ secrets.EC2_USER }}@${{ secrets.EC2.HOST }}:/var/www/html
+      # rsync == filezilla
+      # 첫번째 줄의 명령어는 현재 폴더의 build 폴더를 EC2 유저로 인스턴스(HOST)에 접속해서 /var/www/html 폴더에 복사해달라
+      # -e "ssh" == 접속 방법에 대한 설정
+      # -avz == 설정, 옵션
+      # -a : 전부
+      # -v : 모두 출력해달라
+      # -z : 권한, 소유자, 그룹등 유지
