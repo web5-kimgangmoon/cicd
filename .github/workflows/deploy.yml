@@ -14,13 +14,13 @@ on:
 
 jobs:
   # 작업들
-  build:
-  # 작업명
-  runs-on: ubuntu-latest
-  # 작업 환경
-  steps:
-    # 작업들을 순서에 맞춰서 작성
-    - name: "testing"
-      # 작업명은 testing이고
-      run: echo "now test"
-      # 작업 내용은 echo "now test"###
+  test:
+    # 작업명
+    runs-on: ubuntu-latest
+    # 작업 환경
+    steps:
+      # 작업들을 순서에 맞춰서 작성
+      - name: "testing"
+        # 작업명은 testing이고
+        run: echo "now test"
+        # 작업 내용은 echo "now test"###
