@@ -23,4 +23,4 @@ jobs:
     - name: "testing"
       # 작업명은 testing이고
       run: echo "now test"
-      # 작업 내용은 echo "now test"
+      # 작업 내용은 echo "now test"###
